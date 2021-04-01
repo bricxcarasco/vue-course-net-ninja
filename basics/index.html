@@ -7,6 +7,25 @@
     <script src="https://unpkg.com/vue@3.0.2"></script>
     <title>Document</title>
     <style>
+        body {
+            background: #eee;
+            max-width: 960px;
+            margin: 20px auto;
+        }
+        p, h3, ul {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            background: #fff;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         .box {
             padding: 100px 0;
             width: 400px;
@@ -14,6 +33,10 @@
             background: #ddd;
             margin: 20px;
             display: inline-block;
+        }
+        .favorite {
+            background: #ff9ed2;
+            color: white;
         }
     </style>
 </head>
@@ -26,13 +49,20 @@
 
         <div v-if="showBooks">
             <ul>
-                <li v-for="book in books">
+                <li @click="toggleFavorite(book)" v-for="book in books" :class="{ favorite: book.isFavorite }">
                     <img :src="book.image" :alt="book.title">
                     <h3>{{ book.title }}</h3>
                     <p>{{ book.author }}</p>
                 </li>
             </ul>
         </div>
+
+        <p>Filtered Books</p>
+        <ul>
+            <li v-for="book in filteredBooks">
+                <p>{{ book.title }} - {{ book.author }}</p>
+            </li>
+        </ul>
             
         <button @click="toggleShowBooks">
             <span v-if="showBooks">Hide Books</span>

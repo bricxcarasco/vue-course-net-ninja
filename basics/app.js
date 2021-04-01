@@ -8,17 +8,20 @@ const app = Vue.createApp({
                 {
                     title: 'Name of the wind',
                     author: 'Patrick Rothfus',
-                    image: 'assets/1.jpg'
+                    image: 'assets/1.jpg',
+                    isFavorite: true
                 },
                 {
                     title: 'The Way of Kings',
                     author: 'Brandon Sanderson',
-                    image: 'assets/2.jpg'
+                    image: 'assets/2.jpg',
+                    isFavorite: false
                 },
                 {
                     title: 'The Final Empire',
                     author: 'Brandon Sanderson',
-                    image: 'assets/3.jpg'
+                    image: 'assets/3.jpg',
+                    isFavorite: true
                 }
             ],
             x: 0,
@@ -38,6 +41,14 @@ const app = Vue.createApp({
         handleMouseMove(event) {
             this.x = event.offsetX
             this.y = event.offsetY
+        },
+        toggleFavorite(book) {
+            book.isFavorite = !book.isFavorite
+        }
+    },
+    computed: {
+        filteredBooks() {
+            return this.books.filter(book => book.isFavorite)
         }
     }
 })

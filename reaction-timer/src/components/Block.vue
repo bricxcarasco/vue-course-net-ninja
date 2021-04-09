@@ -1,13 +1,45 @@
 <template>
-  <div class="block">
-      Cick Me
-  </div>
+    <div class="block" v-if="showBlock">
+        Cick Me
+    </div>
 </template>
 
 <script>
-export default {
-    props: ['delay']
-}
+    export default {
+        props: ['delay'],
+        data() {
+            return {
+                showBlock: false
+            }
+        },
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+        created() {
+            console.log('created')
+        },
+        beforeMount() {
+            console.log('beforeMount')
+        },
+        mounted() {
+            console.log('mounted')
+            setTimeout(() => {
+                this.showBlock = true
+            }, this.delay)
+        },
+        beforeUpdate() {
+            console.log('beforeUpdate')
+        },
+        updated() {
+            console.log('updated')
+        },
+        beforeUnmount() {
+            console.log('beforeUnmount')
+        },
+        unmounted() {
+            console.log('unmounted')
+        }
+    }
 </script>
 
 <style>

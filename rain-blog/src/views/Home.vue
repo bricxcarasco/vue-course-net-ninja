@@ -1,13 +1,21 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <PostList :posts="posts"/>
+    <div v-if="error">
+      {{ error }}
+    </div>
+    <div v-if="posts.length">
+      <PostList :posts="posts"/>
+    </div>
+    <div v-else>
+      Loading....
+    </div>
   </div>
 </template>
 
 <script>
 import PostList from '../components/PostList'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 export default {
   name: 'Home',
@@ -15,20 +23,27 @@ export default {
     PostList
   },
   setup() {
-    const posts = ref([
-      {
-        id: 1,
-        title: 'Welcome to the blog',
-        body: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
-      },
-      {
-        id: 2,
-        title: 'Top 5 CSS tips',
-        body: 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+    const posts = ref([])
+    const error = ref(null)
+
+    const load = async () => {
+      try {
+        const data = await fetch('http://localhost:3000/posts')
+        if (!data.ok) {
+          throw Error('no data available')
+        }
+        posts.value = await data.json()
+      } catch (err) {
+        error.value = err.message
+        console.log(error.value)
       }
-    ])
+    }
+
+    onMounted(() => {
+      load()
+    })
     
-    return { posts }
+    return { posts, error }
   }
 }
 </script>

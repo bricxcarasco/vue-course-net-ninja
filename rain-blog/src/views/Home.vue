@@ -8,13 +8,21 @@
 </template>
 
 <script>
-import { ref, computed } from '@vue/reactivity'
+import { ref, computed, watch, watchEffect } from 'vue'
 
 export default {
   name: 'Home',
   setup() {
     const search = ref('')
     const names = ref(['marui', 'taylo', 'rain', 'snaku', 'dhsaa'])
+
+    watch(search, () => {
+      console.log("watch function run")
+    })
+
+    watchEffect(() => {
+      console.log("watch effect function run", search.value);
+    })
 
     const matchingNames = computed(() => {
       return names.value.filter(name => name.includes(search.value))

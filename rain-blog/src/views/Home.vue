@@ -1,34 +1,34 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <input type="text" v-model="search">
-    <p>Search term: {{ search }}</p>
-    <div v-for="name in matchingNames" :key="name">{{ name }}</div>    
+    <PostList :posts="posts"/>
   </div>
 </template>
 
 <script>
-import { ref, computed, watch, watchEffect } from 'vue'
+import PostList from '../components/PostList'
+import { ref } from 'vue'
 
 export default {
   name: 'Home',
+  components: {
+    PostList
+  },
   setup() {
-    const search = ref('')
-    const names = ref(['marui', 'taylo', 'rain', 'snaku', 'dhsaa'])
-
-    watch(search, () => {
-      console.log("watch function run")
-    })
-
-    watchEffect(() => {
-      console.log("watch effect function run", search.value);
-    })
-
-    const matchingNames = computed(() => {
-      return names.value.filter(name => name.includes(search.value))
-    })
-
-    return { names, search, matchingNames }
+    const posts = ref([
+      {
+        id: 1,
+        title: 'Welcome to the blog',
+        body: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
+      },
+      {
+        id: 2,
+        title: 'Top 5 CSS tips',
+        body: 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+      }
+    ])
+    
+    return { posts }
   }
 }
 </script>
